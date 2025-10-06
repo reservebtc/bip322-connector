@@ -1,0 +1,35 @@
+{
+  "name": "@reservebtc/bip322-connector",
+  "version": "1.0.0",
+  "description": "One-click BIP-322 signature verification for Bitcoin wallets - MetaMask-like UX",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node test/test.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "bip322",
+    "bitcoin",
+    "wallet",
+    "signature",
+    "verification",
+    "unisat",
+    "xverse",
+    "leather"
+  ],
+  "author": "ReserveBTC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reservebtc/bip322-connector.git"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  }
+}

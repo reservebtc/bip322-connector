@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIP-322 Connector - Vanilla JavaScript Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>BIP-322 Connector Example</h1>
+  
+  <div>
+    <h2>Step 1: Detect Wallets</h2>
+    <button onclick="detectWallets()">Detect Wallets</button>
+    <div id="wallets"></div>
+  </div>
+
+  <div>
+    <h2>Step 2: Sign Message</h2>
+    <input type="text" id="message" placeholder="Message to sign" value="Sign this message">
+    <button onclick="signMessage('unisat')">Sign with UniSat</button>
+    <button onclick="signMessage('xverse')">Sign with Xverse</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script type="module">
+    import { BIP322Connector, WalletDetector } from '../dist/index.js'
+
+    window.BIP322Connector = BIP322Connector
+    window.WalletDetector = WalletDetector
+
+    window.detectWallets = function() {
+      const wallets = WalletDetector.detectAll()
+      document.getElementById('wallets').innerHTML = 
+        '<pre>' + JSON.stringify(wallets, null, 2) + '</pre>'
+    }
+
+    window.signMessage = async function(walletName) {
+      const message = document.getElementById('message').value
+      const resultDiv = document.getElementById('result')
+      
+      try {
+        resultDiv.innerHTML = 'Connecting to ' + walletName + '...'
+        
+        const connector = new BIP322Connector()
+        await connector.connect(walletName)
+        
+        resultDiv.innerHTML = 'Getting address...'
+        
+        // Get address (simplified)
+        const provider = WalletDetector.getProvider(walletName)
+        const accounts = await provider.getAccounts()
+        const address = accounts[0]
+        
+        resultDiv.innerHTML = 'Signing message...'
+        
+        const result = await connector.sign(address, message)
+        
+        resultDiv.innerHTML = '<h3>Success!</h3><pre>' + 
+          JSON.stringify(result, null, 2) + '</pre>'
+          
+      } catch (error) {
+        resultDiv.innerHTML = '<h3>Error</h3><p>' + error.message + '</p>'
+      }
+    }
+  </script>
+</body>
+</html>
