@@ -127,7 +127,8 @@ See `/examples` directory for complete examples:
 
 ## Live Demo
 
-[https://app.reservebtc.io/verify](https://app.reservebtc.io/verify)
+[https://app.reservebtc.io/bip322-demo](https://app.reservebtc.io/bip322-demo)
+- **Working Example**: https://app.reservebtc.io/verify (current implementation)
 
 ## Contributing
 
